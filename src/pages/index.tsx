@@ -6,7 +6,11 @@ import Header from "@/components/Header";
 import Messages from "@/components/Messages";
 import axios from "axios";
 import Footer from "@/components/Footer";
+import useSound from "react-native-use-sound";
+
 const inter = Inter({ subsets: ["latin"] });
+// const Pop = "../assets/pop.mp3";
+// const Whoosh = "../assets/whoosh.mp3";
 
 interface Message {
   id: number
@@ -22,7 +26,8 @@ interface newMessage {
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("something wrong! try later")
+  // const [playPop] = useSound(PopSound, { volume: 0.25 });
+  // const [playWhoosh] = useSound(Whoosh, { volume: 0.25 });
 
   useEffect(() => {
     fetch("https://cyf-shayanmahnam-chat-server.glitch.me/messages")
@@ -54,6 +59,10 @@ export default function Home() {
       .then((response) => {
         const data: Message = response.data;
         setMessages([...messages, data]);
+        const audio = new Audio("/pop.mp3");
+        audio.volume = 0.25;
+        audio.currentTime = 0;
+        audio.play();
         // window.location.reload(); // Reload the page
       })
       .catch((error) => {
@@ -72,6 +81,10 @@ export default function Home() {
       .delete(`https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`)
       .then((response) => {
         setMessages(response.data);
+        const audio = new Audio("/whoosh.mp3");
+        audio.volume = 0.25;
+        audio.currentTime = 0;
+        audio.play();
       })
       .catch((error) => {
         console.log(error);
