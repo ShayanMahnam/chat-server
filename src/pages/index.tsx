@@ -33,30 +33,40 @@ export default function Home() {
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
-  }, []);
+  }, [messages]);
 
   const handleSubmit = (newMessage: newMessage) => {
-    const message: newMessage = {
+    const message: Message = {
+      id: Date.now(),
       from: newMessage.from,
       text: newMessage.text,
     };
     console.log("Sending message:", message);
-    fetch("https://cyf-shayanmahnam-chat-server.glitch.me/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(message),
-    })
-      .then((response) => response.json())
-      .then((data: Message) => {
-        setMessages([...messages, data]); // update messages state with the new message
+    axios
+      .post(
+        "https://cyf-shayanmahnam-chat-server.glitch.me/messages",
+        message,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response) => {
+        const data: Message = response.data;
+        setMessages([...messages, data]);
+        // window.location.reload(); // Reload the page
       })
-      .catch((er) => {
+      .catch((error) => {
         console.error("Error adding new message:", error);
-        console.error(er)
       });
   };
 
   function onDeleteMessage(id: number) {
+    if (id === 0) {
+      console.log("Cannot delete message with ID 0.");
+      alert("you can't delete this message")
+      return;
+    }
+
     axios
       .delete(`https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`)
       .then((response) => {
