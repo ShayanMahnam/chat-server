@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import Messages from "@/components/Messages";
 import axios from "axios";
+import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 interface Message {
@@ -137,6 +138,7 @@ export default function Home() {
             <Messages messages={messages} onDeleteMessage={onDeleteMessage} />
           )}
         </div>
+        <Footer />
       </main>
     </>
   );
