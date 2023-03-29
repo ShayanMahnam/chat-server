@@ -31,7 +31,7 @@ function Messages({ messages, onDeleteMessage }: Props) {
 
   return (
     <div className="flex justify-center">
-      <ul className="flex flex-col p-3 rounded-lg w-8/12 md:w-4/12 bg-white">
+      <ul className="flex flex-col p-3 rounded-lg w-11/12 md:w-6/12 bg-white">
         {messages.map((message, index) =>
           index % 2 === 0 ? (
             <div className="self-start ml-1" key={message.id}>
@@ -49,14 +49,16 @@ function Messages({ messages, onDeleteMessage }: Props) {
                 >
                   {message.text}
                 </p>
-                <FiEdit
-                  className="cursor-pointer"
-                  onClick={() => handleAlert()}
-                />
-                <FiTrash
-                  className="cursor-pointer"
-                  onClick={() => onDeleteMessage(message.id)}
-                />
+                <div className="flex flex-col md:flex-row gap-1">
+                  <FiEdit
+                    className="cursor-pointer"
+                    onClick={() => handleAlert()}
+                  />
+                  <FiTrash
+                    className="cursor-pointer"
+                    onClick={() => onDeleteMessage(message.id)}
+                  />
+                </div>
               </li>
             </div>
           ) : (
@@ -67,14 +69,17 @@ function Messages({ messages, onDeleteMessage }: Props) {
                 } flex items-center`}
                 key={message.id}
               >
-                <FiTrash
-                  className="cursor-pointer"
-                  onClick={() => onDeleteMessage(message.id)}
-                />
-                <FiEdit
-                  className="cursor-pointer"
-                  onClick={() => handleAlert()}
-                />
+                <div className="flex flex-col md:flex-row gap-1">
+                  <FiTrash
+                    className="cursor-pointer"
+                    onClick={() => onDeleteMessage(message.id)}
+                  />
+                  <FiEdit
+                    className="cursor-pointer"
+                    onClick={() => handleAlert()}
+                  />
+                </div>
+
                 <p
                   className={`chat-bubble chat-bubble-${
                     colors[index % colors.length]

@@ -31,10 +31,16 @@ function Header({ addMessage }: Props) {
   };
 
   return (
-    <header className="flex flex-col justify-center text-center gap-4">
-      <h1 className="font-bold text-3xl">Shayan Mini Chat Server</h1>
-      <div className="flex justify-center items-center flex-nowrap">
-        <form autoComplete="off" onSubmit={handleSubmit}>
+    <header className="flex flex-col justify-center text-center gap-4 flex-nowrap">
+      <h1 className="font-bold text-2xl md:text-3xl">
+        Shayan Mini Chat Server
+      </h1>
+      <div>
+        <form
+          className="flex flex-col md:flex-row justify-center items-center gap-3"
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             name="from"
@@ -42,7 +48,7 @@ function Header({ addMessage }: Props) {
             required
             value={newMessage.from}
             onChange={handleInputChange}
-            className="border border-gray-400 rounded px-4 py-2 mb-4 mr-4"
+            className="border border-gray-400 rounded px-4 py-2 mr-4 w-10/12 md:w-auto"
           />
           <input
             type="text"
@@ -51,7 +57,7 @@ function Header({ addMessage }: Props) {
             required
             value={newMessage.text}
             onChange={handleInputChange}
-            className="border border-gray-400 rounded px-4 py-2 mb-4 mr-4"
+            className="border border-gray-400 rounded px-4 py-2 mr-4 w-10/12 md:w-auto"
           />
           <button
             type="submit"
@@ -61,7 +67,6 @@ function Header({ addMessage }: Props) {
           </button>
         </form>
       </div>
-      <h2>Messages</h2>
     </header>
   );
 }
