@@ -1,6 +1,7 @@
 import React from "react";
 import { FiTrash, FiEdit } from "react-icons/fi";
 
+
 interface Message {
   id: number;
   from: string;
@@ -9,9 +10,13 @@ interface Message {
 
 interface Props {
   messages: Message[];
+  onDeleteMessage: (id: number) => void;
 }
 
-function Messages({ messages }: Props) {
+function Messages({ messages, onDeleteMessage }: Props) {
+  const handleAlert = () => {
+    alert("update messages will be new feature in future")
+  }
   const colors = [
     "primary",
     "secondary",
@@ -44,8 +49,14 @@ function Messages({ messages }: Props) {
                 >
                   {message.text}
                 </p>
-                <FiEdit />
-                <FiTrash />
+                <FiEdit
+                  className="cursor-pointer"
+                  onClick={() => handleAlert()}
+                />
+                <FiTrash
+                  className="cursor-pointer"
+                  onClick={() => onDeleteMessage(message.id)}
+                />
               </li>
             </div>
           ) : (
@@ -56,8 +67,14 @@ function Messages({ messages }: Props) {
                 } flex items-center`}
                 key={message.id}
               >
-                <FiTrash />
-                <FiEdit />
+                <FiTrash
+                  className="cursor-pointer"
+                  onClick={() => onDeleteMessage(message.id)}
+                />
+                <FiEdit
+                  className="cursor-pointer"
+                  onClick={() => handleAlert()}
+                />
                 <p
                   className={`chat-bubble chat-bubble-${
                     colors[index % colors.length]

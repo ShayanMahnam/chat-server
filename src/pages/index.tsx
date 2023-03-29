@@ -4,32 +4,39 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import Messages from "@/components/Messages";
-
+import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 interface Message {
-  id: number;
+  id: number
+  from: string;
+  text: string;
+}
+
+interface newMessage {
   from: string;
   text: string;
 }
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("something wrong! try later")
 
   useEffect(() => {
     fetch("https://cyf-shayanmahnam-chat-server.glitch.me/messages")
       .then((response) => response.json())
       .then((data) => {
         setMessages(data);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
   }, []);
 
-  const handleSubmit = (newMessage: { from: string; text: string }) => {
-    const message: Message = {
-      id: messages.length,
+  const handleSubmit = (newMessage: newMessage) => {
+    const message: newMessage = {
       from: newMessage.from,
       text: newMessage.text,
     };
@@ -41,12 +48,24 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((data: Message) => {
-        setMessages([...messages, data]);
+        setMessages([...messages, data]); // update messages state with the new message
       })
-      .catch((error) => {
+      .catch((er) => {
         console.error("Error adding new message:", error);
+        console.error(er)
       });
   };
+
+  function onDeleteMessage(id: number) {
+    axios
+      .delete(`https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`)
+      .then((response) => {
+        setMessages(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <>
@@ -59,7 +78,54 @@ export default function Home() {
       <main>
         <Header addMessage={handleSubmit} />
         <div>
-          <Messages messages={messages} />
+          {isLoading ? (
+            <div className="flex font-bold justify-center items-center">
+              <svg
+                className="w-20"
+                version="1.1"
+                id="L4"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 100 100"
+                enableBackground="new 0 0 0 0"
+                xmlSpace="preserve"
+              >
+                <circle fill="#000" stroke="none" cx="6" cy="50" r="6">
+                  <animate
+                    attributeName="opacity"
+                    dur="1s"
+                    values="0;1;0"
+                    repeatCount="indefinite"
+                    begin="0.1"
+                  />
+                </circle>
+                <circle fill="#000" stroke="none" cx="26" cy="50" r="6">
+                  <animate
+                    attributeName="opacity"
+                    dur="1s"
+                    values="0;1;0"
+                    repeatCount="indefinite"
+                    begin="0.2"
+                  />
+                </circle>
+                <circle fill="#000" stroke="none" cx="46" cy="50" r="6">
+                  <animate
+                    attributeName="opacity"
+                    dur="1s"
+                    values="0;1;0"
+                    repeatCount="indefinite"
+                    begin="0.3"
+                  />
+                </circle>
+              </svg>
+
+              <span>Data is loading, Please wait!</span>
+            </div>
+          ) : (
+            <Messages messages={messages} onDeleteMessage={onDeleteMessage} />
+          )}
         </div>
       </main>
     </>

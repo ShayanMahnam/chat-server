@@ -39,6 +39,7 @@ function Header({ addMessage }: Props) {
             type="text"
             name="from"
             placeholder="Your Name"
+            required
             value={newMessage.from}
             onChange={handleInputChange}
             className="border border-gray-400 rounded px-4 py-2 mb-4 mr-4"
@@ -47,6 +48,7 @@ function Header({ addMessage }: Props) {
             type="text"
             name="text"
             placeholder="Your Message"
+            required
             value={newMessage.text}
             onChange={handleInputChange}
             className="border border-gray-400 rounded px-4 py-2 mb-4 mr-4"
