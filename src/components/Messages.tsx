@@ -1,5 +1,6 @@
 import React from "react";
 import { FiTrash, FiEdit } from "react-icons/fi";
+
 interface Message {
   id: number;
   from: string;
@@ -21,28 +22,20 @@ function Messages({ messages }: Props) {
     "error",
   ];
 
-  const align = [
-    "start",
-    "end"
-  ]
-
-  // const getRandomColor = () => {
-  //   const randomIndex = Math.floor(Math.random() * colors.length);
-  //   return colors[randomIndex];
-  // };
+  const align = ["start", "end"];
 
   return (
-    <div>
-      <ul className="flex flex-col justify-center items-center">
-        {messages.map((message, index) => (
-          <li
-            className={`chat chat-${
-              align[index % align.length]
-            } flex justify-center items-center`}
-            key={message.id}
-          >
-            {index % 2 === 0 ? (
-              <>
+    <div className="flex justify-center">
+      <ul className="flex flex-col p-3 rounded-lg w-8/12 md:w-4/12 bg-white">
+        {messages.map((message, index) =>
+          index % 2 === 0 ? (
+            <div className="self-start ml-1" key={message.id}>
+              <li
+                className={`chat chat-${
+                  align[index % align.length]
+                } flex items-center`}
+                key={message.id}
+              >
                 <strong>{message.from}</strong>
                 <p
                   className={`chat-bubble chat-bubble-${
@@ -53,9 +46,16 @@ function Messages({ messages }: Props) {
                 </p>
                 <FiEdit />
                 <FiTrash />
-              </>
-            ) : (
-              <>
+              </li>
+            </div>
+          ) : (
+            <div className="self-end mr-1" key={message.id}>
+              <li
+                className={`chat chat-${
+                  align[index % align.length]
+                } flex items-center`}
+                key={message.id}
+              >
                 <FiTrash />
                 <FiEdit />
                 <p
@@ -66,10 +66,10 @@ function Messages({ messages }: Props) {
                   {message.text}
                 </p>
                 <strong>{message.from}</strong>
-              </>
-            )}
-          </li>
-        ))}
+              </li>
+            </div>
+          )
+        )}
       </ul>
     </div>
   );
