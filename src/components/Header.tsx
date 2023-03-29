@@ -17,10 +17,28 @@ function Header({ addMessage }: Props) {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setNewMessage((prevMessage) => ({
-      ...prevMessage,
-      [name]: value,
-    }));
+    if (name === "from") {
+      // capitalize the first letter and trim any leading/trailing spaces/limited char to 20
+      const trimmedValue = value.trimStart().slice(0, 20);;
+      const capitalizedValue =
+        trimmedValue.charAt(0).toUpperCase() + trimmedValue.slice(1);
+      setNewMessage((prevMessage) => ({
+        ...prevMessage,
+        [name]: capitalizedValue,
+      }));
+    } else if (name === "text") {
+      // trim any leading/trailing spaces/limited char to 100
+      const trimmedValue = value.trimStart().slice(0,100);
+      setNewMessage((prevMessage) => ({
+        ...prevMessage,
+        [name]: trimmedValue,
+      }));
+    } else {
+      setNewMessage((prevMessage) => ({
+        ...prevMessage,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

@@ -44,7 +44,7 @@ export default function Home() {
       from: newMessage.from,
       text: newMessage.text,
     };
-    console.log("Sending message:", message);
+    // console.log("Sending message:", message);
     axios
       .post(
         "https://cyf-shayanmahnam-chat-server.glitch.me/messages",
