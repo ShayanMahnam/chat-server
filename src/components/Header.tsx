@@ -32,7 +32,7 @@ function Header({ addMessage }: Props) {
 
   return (
     <header className="flex flex-col justify-center text-center gap-4 flex-nowrap">
-      <h1 className="font-bold text-2xl md:text-3xl">
+      <h1 className="font-bold text-2xl md:text-3xl dark:text-white">
         Shayan Mini Chat Server
       </h1>
       <div>

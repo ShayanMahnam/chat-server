@@ -41,21 +41,21 @@ function Messages({ messages, onDeleteMessage }: Props) {
                 } flex items-center`}
                 key={message.id}
               >
-                <strong>{message.from}</strong>
+                <strong className="dark:text-black">{message.from}</strong>
                 <p
                   className={`chat-bubble chat-bubble-${
                     colors[index % colors.length]
-                  }`}
+                  } dark:text-white`}
                 >
                   {message.text}
                 </p>
                 <div className="flex flex-col md:flex-row gap-1">
                   <FiEdit
-                    className="cursor-pointer"
+                    className="cursor-pointer dark:text-black"
                     onClick={() => handleAlert()}
                   />
                   <FiTrash
-                    className="cursor-pointer"
+                    className="cursor-pointer dark:text-black"
                     onClick={() => onDeleteMessage(message.id)}
                   />
                 </div>
@@ -71,11 +71,11 @@ function Messages({ messages, onDeleteMessage }: Props) {
               >
                 <div className="flex flex-col md:flex-row gap-1">
                   <FiTrash
-                    className="cursor-pointer"
+                    className="cursor-pointer dark:text-black"
                     onClick={() => onDeleteMessage(message.id)}
                   />
                   <FiEdit
-                    className="cursor-pointer"
+                    className="cursor-pointer dark:text-black"
                     onClick={() => handleAlert()}
                   />
                 </div>
@@ -83,11 +83,11 @@ function Messages({ messages, onDeleteMessage }: Props) {
                 <p
                   className={`chat-bubble chat-bubble-${
                     colors[index % colors.length]
-                  }`}
+                  } dark:text-white`}
                 >
                   {message.text}
                 </p>
-                <strong>{message.from}</strong>
+                <strong className="dark:text-black">{message.from}</strong>
               </li>
             </div>
           )
