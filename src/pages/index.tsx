@@ -33,7 +33,7 @@ export default function Home() {
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
-  }, [messages]);
+  }, []);
 
   const handleSubmit = (newMessage: newMessage) => {
     const message: Message = {
