@@ -34,7 +34,7 @@ function Header({ addMessage }: Props) {
     <header className="flex flex-col justify-center text-center gap-4">
       <h1 className="font-bold text-3xl">Mini Chat Server</h1>
       <div className="flex justify-center items-center flex-nowrap">
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <input
             type="text"
             name="from"

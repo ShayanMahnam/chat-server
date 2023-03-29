@@ -1,5 +1,5 @@
 import React from "react";
-
+import { FiTrash, FiEdit } from "react-icons/fi";
 interface Message {
   id: number;
   from: string;
@@ -21,6 +21,11 @@ function Messages({ messages }: Props) {
     "error",
   ];
 
+  const align = [
+    "start",
+    "end"
+  ]
+
   // const getRandomColor = () => {
   //   const randomIndex = Math.floor(Math.random() * colors.length);
   //   return colors[randomIndex];
@@ -31,17 +36,38 @@ function Messages({ messages }: Props) {
       <ul className="flex flex-col justify-center items-center">
         {messages.map((message, index) => (
           <li
-            className="chat chat-start flex justify-center items-center"
+            className={`chat chat-${
+              align[index % align.length]
+            } flex justify-center items-center`}
             key={message.id}
           >
-            <strong>{message.from}:</strong>
-            <p
-              className={`chat-bubble chat-bubble-${
-                colors[index % colors.length]
-              }`}
-            >
-              {message.text}
-            </p>
+            {index % 2 === 0 ? (
+              <>
+                <strong>{message.from}</strong>
+                <p
+                  className={`chat-bubble chat-bubble-${
+                    colors[index % colors.length]
+                  }`}
+                >
+                  {message.text}
+                </p>
+                <FiEdit />
+                <FiTrash />
+              </>
+            ) : (
+              <>
+                <FiTrash />
+                <FiEdit />
+                <p
+                  className={`chat-bubble chat-bubble-${
+                    colors[index % colors.length]
+                  }`}
+                >
+                  {message.text}
+                </p>
+                <strong>{message.from}</strong>
+              </>
+            )}
           </li>
         ))}
       </ul>
