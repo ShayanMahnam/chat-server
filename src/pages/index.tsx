@@ -6,11 +6,9 @@ import Header from "@/components/Header";
 import Messages from "@/components/Messages";
 import axios from "axios";
 import Footer from "@/components/Footer";
-import useSound from "react-native-use-sound";
 
 const inter = Inter({ subsets: ["latin"] });
-// const Pop = "../assets/pop.mp3";
-// const Whoosh = "../assets/whoosh.mp3";
+
 
 interface Message {
   id: number
@@ -26,8 +24,7 @@ interface newMessage {
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [playPop] = useSound(PopSound, { volume: 0.25 });
-  // const [playWhoosh] = useSound(Whoosh, { volume: 0.25 });
+ 
 
   useEffect(() => {
     fetch("https://cyf-shayanmahnam-chat-server.glitch.me/messages")
