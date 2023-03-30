@@ -88,6 +88,35 @@ export default function Home() {
       });
   }
 
+  function onUpdateMessage(id: number, updatedMessage: Message) {
+    if (id === 0) {
+      console.log("Cannot delete message with ID 0.");
+      alert("you can't update this message");
+      return;
+    }
+    axios
+      .put(
+        `https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`,
+        updatedMessage,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response) => {
+        const updatedMessages = messages.map((message) =>
+          message.id === id ? response.data : message
+        );
+        setMessages(updatedMessages);
+        const audio = new Audio("/up.mp3");
+        audio.volume = 0.25;
+        audio.currentTime = 0;
+        audio.play();
+      })
+      .catch((error) => {
+        console.error("Error updating message:", error);
+      });
+  }
+
   return (
     <>
       <Head>
@@ -145,7 +174,7 @@ export default function Home() {
               <span>Data is loading, Please wait!</span>
             </div>
           ) : (
-            <Messages messages={messages} onDeleteMessage={onDeleteMessage} />
+            <Messages messages={messages} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
           )}
         </div>
         <Footer />
