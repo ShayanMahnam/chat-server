@@ -90,7 +90,7 @@ export default function Home() {
 
   function onUpdateMessage(id: number, updatedMessage: Message) {
     if (id === 0) {
-      console.log("Cannot delete message with ID 0.");
+      console.log("Cannot update message with ID 0.");
       alert("you can't update this message");
       return;
     }

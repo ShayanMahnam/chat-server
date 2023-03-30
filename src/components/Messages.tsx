@@ -50,6 +50,12 @@ function Messages({ messages, onDeleteMessage, onUpdateMessage }: Props) {
       return;
     }
 
+    if (!editedMessageText.trim()) {
+      // check if edited message text is empty or contains only whitespace
+      alert("Please enter a valid message."); // show an alert message to the user
+      return;
+    }
+
     onUpdateMessage(editingMessageId, {
       id: editingMessageId,
       from: messages.find((m) => m.id === editingMessageId)?.from || "",
