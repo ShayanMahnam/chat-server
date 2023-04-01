@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { FiTrash, FiEdit } from "react-icons/fi";
 
+// Interface for a message
 interface Message {
   id: number;
   from: string;
   text: string;
 }
 
+// Interface for the props received by Message component
 interface Props {
   messages: Message[];
   onDeleteMessage: (id: number) => void;
@@ -14,9 +16,7 @@ interface Props {
 }
 
 function Messages({ messages, onDeleteMessage, onUpdateMessage }: Props) {
-  // const handleAlert = () => {
-  //   alert("update messages will be new feature in future")
-  // }
+  // array of colors to use for the message background
   const colors = [
     "primary",
     "secondary",
@@ -27,6 +27,7 @@ function Messages({ messages, onDeleteMessage, onUpdateMessage }: Props) {
     "error",
   ];
 
+  // array of alignment options for the message text
   const align = ["start", "end"];
 
   // state to keep track of the message being edited

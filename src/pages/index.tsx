@@ -9,9 +9,9 @@ import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
+// Define the Message and newMessage interfaces
 interface Message {
-  id: number
+  id: number;
   from: string;
   text: string;
 }
@@ -21,30 +21,34 @@ interface newMessage {
   text: string;
 }
 
+// Export the Home component as default
 export default function Home() {
+  // Initialize state variables using the useState hook
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
- 
 
+  // Use the useEffect hook to fetch data from the API endpoint when the component mounts
   useEffect(() => {
     fetch("https://cyf-shayanmahnam-chat-server.glitch.me/messages")
       .then((response) => response.json())
       .then((data) => {
         setMessages(data);
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
       });
   }, []);
 
+  // Define a function to handle the submission of a new message
   const handleSubmit = (newMessage: newMessage) => {
+    // Create a new message object using the newMessage parameter
     const message: Message = {
       id: Date.now(),
       from: newMessage.from,
       text: newMessage.text,
     };
-    // console.log("Sending message:", message);
+    // Use axios to send a POST request to the API endpoint to add the new message
     axios
       .post(
         "https://cyf-shayanmahnam-chat-server.glitch.me/messages",
@@ -54,30 +58,37 @@ export default function Home() {
         }
       )
       .then((response) => {
+        // Update the messages state variable with the new message
         const data: Message = response.data;
         setMessages([...messages, data]);
+        // Play a sound effect to indicate that a new message has been received
         const audio = new Audio("/pop.mp3");
         audio.volume = 0.25;
         audio.currentTime = 0;
         audio.play();
-        // window.location.reload(); // Reload the page
+        // Reload the page to reflect the changes
+        // window.location.reload();
       })
       .catch((error) => {
         console.error("Error adding new message:", error);
       });
   };
 
+  // Define a function to handle the deletion of a message
   function onDeleteMessage(id: number) {
+    // Prevent deletion of the first message
     if (id === 0) {
       console.log("Cannot delete message with ID 0.");
-      alert("you can't delete this message")
+      alert("you can't delete this message");
       return;
     }
-
+    // Use axios to send a DELETE request to the API endpoint to delete the specified message
     axios
       .delete(`https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`)
       .then((response) => {
+        // Update the messages state variable with the new array of messages
         setMessages(response.data);
+        // Play a sound effect to indicate that a message has been deleted
         const audio = new Audio("/whoosh.mp3");
         audio.volume = 0.25;
         audio.currentTime = 0;
@@ -88,12 +99,16 @@ export default function Home() {
       });
   }
 
+  // Define a function to handle the update of a message
   function onUpdateMessage(id: number, updatedMessage: Message) {
+    // Check if the message ID is 0, which is not allowed to be updated
     if (id === 0) {
       console.log("Cannot update message with ID 0.");
       alert("you can't update this message");
       return;
     }
+
+    // Use Axios to send an HTTP PUT request to the chat server API to update the message with the given ID
     axios
       .put(
         `https://cyf-shayanmahnam-chat-server.glitch.me/messages/${id}`,
@@ -103,10 +118,14 @@ export default function Home() {
         }
       )
       .then((response) => {
+        // If the message is successfully updated, update the messages state by creating a new array of messages
+        // and replacing the old message with the updated one
         const updatedMessages = messages.map((message) =>
           message.id === id ? response.data : message
         );
         setMessages(updatedMessages);
+
+        // Play an audio file to notify the user that the message was successfully updated
         const audio = new Audio("/up.mp3");
         audio.volume = 0.25;
         audio.currentTime = 0;
@@ -128,6 +147,7 @@ export default function Home() {
       <main className="h-screen flex flex-col gap-20">
         <Header addMessage={handleSubmit} />
         <div>
+          {/* If the isLoading state is true, show a loading animation */}
           {isLoading ? (
             <div className="flex font-bold justify-center items-center">
               <svg
@@ -174,7 +194,11 @@ export default function Home() {
               <span>Data is loading, Please wait!</span>
             </div>
           ) : (
-            <Messages messages={messages} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
+            <Messages
+              messages={messages}
+              onDeleteMessage={onDeleteMessage}
+              onUpdateMessage={onUpdateMessage}
+            />
           )}
         </div>
         <Footer />

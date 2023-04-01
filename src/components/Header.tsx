@@ -1,25 +1,31 @@
+// Importing React and useState hook
 import React, { useState } from "react";
 
+// Interface for a new message
 interface NewMessage {
   from: string;
   text: string;
 }
 
+// Interface for the props received by Header component
 interface Props {
   addMessage: (message: NewMessage) => void;
 }
 
+// Header component definition
 function Header({ addMessage }: Props) {
+  // State for the new message
   const [newMessage, setNewMessage] = useState<NewMessage>({
     from: "",
     text: "",
   });
 
+  // Handler function to update the new message state when input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "from") {
-      // capitalize the first letter and trim any leading/trailing spaces/limited char to 20
-      const trimmedValue = value.trimStart().slice(0, 20);;
+      // Capitalize the first letter and trim any leading/trailing spaces/limit the characters to 20
+      const trimmedValue = value.trimStart().slice(0, 20);
       const capitalizedValue =
         trimmedValue.charAt(0).toUpperCase() + trimmedValue.slice(1);
       setNewMessage((prevMessage) => ({
@@ -27,8 +33,8 @@ function Header({ addMessage }: Props) {
         [name]: capitalizedValue,
       }));
     } else if (name === "text") {
-      // trim any leading/trailing spaces/limited char to 100
-      const trimmedValue = value.trimStart().slice(0,100);
+      // Trim any leading/trailing spaces/limit the characters to 100
+      const trimmedValue = value.trimStart().slice(0, 100);
       setNewMessage((prevMessage) => ({
         ...prevMessage,
         [name]: trimmedValue,
@@ -41,6 +47,7 @@ function Header({ addMessage }: Props) {
     }
   };
 
+  // Handler function to submit the new message
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const message: NewMessage = { ...newMessage };
